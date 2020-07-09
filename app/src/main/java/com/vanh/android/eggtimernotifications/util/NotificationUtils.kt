@@ -38,9 +38,7 @@ private val FLAGS = 0
 fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
     // Create the content intent for the notification, which launches
     // this activity
-    // TODO: Step 1.11 create intent
     val intent = Intent(applicationContext, MainActivity::class.java)
-
     //  PendingIntent can be by system restart the up, and can be reused
     val contentPendingIntent = PendingIntent.getActivity(
         applicationContext, NOTIFICATION_ID,intent,PendingIntent.FLAG_UPDATE_CURRENT)
@@ -79,4 +77,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
 
 }
 
-// TODO: Step 1.14 Cancel all notifications
+//  Cancel all notifications
+fun NotificationManager.cancelNotifications() = cancelAll()
+
+
