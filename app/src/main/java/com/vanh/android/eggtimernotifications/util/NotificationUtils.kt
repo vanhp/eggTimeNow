@@ -17,8 +17,11 @@
 package com.vanh.android.eggtimernotifications.util
 
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.core.app.NotificationCompat
+import com.vanh.android.eggtimernotifications.MainActivity
 import com.vanh.android.eggtimernotifications.R
 
 // Notification ID.
@@ -36,9 +39,11 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
     // Create the content intent for the notification, which launches
     // this activity
     // TODO: Step 1.11 create intent
+    val intent = Intent(applicationContext, MainActivity::class.java)
 
-    // TODO: Step 1.12 create PendingIntent
-
+    //  PendingIntent can be by system restart the up, and can be reused
+    val contentPendingIntent = PendingIntent.getActivity(
+        applicationContext, NOTIFICATION_ID,intent,PendingIntent.FLAG_UPDATE_CURRENT)
     // TODO: Step 2.0 add style
 
     // TODO: Step 2.2 add snooze action
@@ -49,9 +54,12 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         applicationContext,
         applicationContext.getString(R.string.egg_notification_channel_id)
     )
-    .setSmallIcon(R.drawable.cooked_egg)
-    .setContentTitle(applicationContext.getString(R.string.notification_title))
-    .setContentText(messageBody)
+        .setSmallIcon(R.drawable.cooked_egg)
+        .setContentTitle(applicationContext.getString(R.string.notification_title))
+        .setContentText(messageBody)
+        .setContentIntent(contentPendingIntent)
+        .setAutoCancel(true) //self dismiss when tap
+
     notify(NOTIFICATION_ID,builder.build())
 
 
