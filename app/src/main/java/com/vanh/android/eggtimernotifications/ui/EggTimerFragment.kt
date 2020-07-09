@@ -55,7 +55,7 @@ class EggTimerFragment : Fragment() {
         //  setup to create a channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notifyChann =
-                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW)
+                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
             notifyChann.enableLights(true)
             notifyChann.enableVibration(true)
             notifyChann.lightColor = Color.RED

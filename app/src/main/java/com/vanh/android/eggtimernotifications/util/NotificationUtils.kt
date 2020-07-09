@@ -69,7 +69,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setStyle(bigPicStyle)
         .setLargeIcon(eggImage)
         .addAction(R.drawable.egg_icon,applicationContext.getString(R.string.snooze),snoozPendingIntent)
-
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
     notify(NOTIFICATION_ID,builder.build())
 
 
