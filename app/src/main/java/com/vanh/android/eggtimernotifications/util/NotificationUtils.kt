@@ -18,6 +18,8 @@ package com.vanh.android.eggtimernotifications.util
 
 import android.app.NotificationManager
 import android.content.Context
+import androidx.core.app.NotificationCompat
+import com.vanh.android.eggtimernotifications.R
 
 // Notification ID.
 private val NOTIFICATION_ID = 0
@@ -43,6 +45,15 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
 
     // TODO: Step 1.2 get an instance of NotificationCompat.Builder
     // Build the notification
+    val builder = NotificationCompat.Builder(
+        applicationContext,
+        applicationContext.getString(R.string.egg_notification_channel_id)
+    )
+    .setSmallIcon(R.drawable.cooked_egg)
+    .setContentTitle(applicationContext.getString(R.string.notification_title))
+    .setContentText(messageBody)
+    notify(NOTIFICATION_ID,builder.build())
+
 
     // TODO: Step 1.8 use the new 'breakfast' notification channel
 

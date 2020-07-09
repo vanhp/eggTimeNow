@@ -16,13 +16,17 @@
 
 package com.vanh.android.eggtimernotifications.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.vanh.android.eggtimernotifications.R
 import com.vanh.android.eggtimernotifications.databinding.FragmentEggTimerBinding
 
@@ -31,29 +35,35 @@ class EggTimerFragment : Fragment() {
     private val TOPIC = "breakfast"
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?): View? {
         val binding: FragmentEggTimerBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_egg_timer, container, false
+                    inflater, R.layout.fragment_egg_timer, container, false
         )
-
-        val viewModel = ViewModelProviders.of(this).get(EggTimerViewModel::class.java)
-
+        val viewModel = ViewModelProvider(this).get(EggTimerViewModel::class.java)
         binding.eggTimerViewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        // TODO: Step 1.7 call create channel
+        // call create channel
+        createChannel(getString( R.string.egg_notification_channel_id),
+                        getString(R.string.breakfast_notification_channel_name))
 
         return binding.root
     }
 
     private fun createChannel(channelId: String, channelName: String) {
-        // TODO: Step 1.6 START create a channel
+        //  setup to create a channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notifyChann =
+                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW)
+            notifyChann.enableLights(true)
+            notifyChann.enableVibration(true)
+            notifyChann.lightColor = Color.RED
+            notifyChann.description = "Time for breakfast"
 
-        // TODO: Step 1.6 END create a channel
-
+            val notifyMan = requireActivity().getSystemService(NotificationManager::class.java)
+            notifyMan.createNotificationChannel(notifyChann)
+        }
     }
 
     companion object {

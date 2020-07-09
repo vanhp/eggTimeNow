@@ -22,9 +22,11 @@ import android.content.Intent
 import android.os.CountDownTimer
 import android.os.SystemClock
 import androidx.core.app.AlarmManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import com.vanh.android.eggtimernotifications.receiver.AlarmReceiver
 import com.vanh.android.eggtimernotifications.R
+import com.vanh.android.eggtimernotifications.util.sendNotification
 import kotlinx.coroutines.*
 
 class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
@@ -40,7 +42,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
 
     private val alarmManager = app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     private var prefs =
-        app.getSharedPreferences("com.example.android.eggtimernotifications", Context.MODE_PRIVATE)
+        app.getSharedPreferences("com.vanh.android.eggtimernotifications", Context.MODE_PRIVATE)
     private val notifyIntent = Intent(app, AlarmReceiver::class.java)
 
     private val _timeSelection = MutableLiveData<Int>()
@@ -111,12 +113,15 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
             if (!it) {
                 _alarmOn.value = true
                 val selectedInterval = when (timerLengthSelection) {
-                    0 -> second * 10 //For testing only
-                    else ->timerLengthOptions[timerLengthSelection] * minute
+                                            0 -> second * 10 //For testing only
+                                            else ->timerLengthOptions[timerLengthSelection] * minute
                 }
                 val triggerTime = SystemClock.elapsedRealtime() + selectedInterval
+                // get an instance of NotificationManager to sendNotification
+                val notificationManager = ContextCompat.getSystemService(
+                                            app, NotificationManager::class.java) as NotificationManager
+                notificationManager.sendNotification(app.getString(R.string.timer_running),app)
 
-                // TODO: Step 1.5 get an instance of NotificationManager and call sendNotification
 
                 // TODO: Step 1.15 call cancel notification
 
