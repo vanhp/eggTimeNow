@@ -20,6 +20,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
 import com.vanh.android.eggtimernotifications.MainActivity
 import com.vanh.android.eggtimernotifications.R
@@ -43,6 +44,10 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
     val contentPendingIntent = PendingIntent.getActivity(
         applicationContext, NOTIFICATION_ID,intent,PendingIntent.FLAG_UPDATE_CURRENT)
     // TODO: Step 2.0 add style
+    val eggImage = BitmapFactory.decodeResource(applicationContext.resources,R.drawable.cooked_egg)
+    val bigPicStyle = NotificationCompat.BigPictureStyle()
+                            .bigPicture(eggImage)
+                            .bigLargeIcon(null)
 
     // TODO: Step 2.2 add snooze action
 
@@ -57,6 +62,8 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setContentText(messageBody)
         .setContentIntent(contentPendingIntent)
         .setAutoCancel(true) //self dismiss when tap
+        .setStyle(bigPicStyle)
+        .setLargeIcon(eggImage)
 
     notify(NOTIFICATION_ID,builder.build())
 
