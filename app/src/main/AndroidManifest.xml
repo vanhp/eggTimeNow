@@ -18,6 +18,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.vanh.android.eggtimernotifications">
 
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/egg_icon"
