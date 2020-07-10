@@ -1,7 +1,10 @@
 package com.vanh.android.eggtimernotifications.util
 
+import android.app.NotificationManager
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -13,6 +16,13 @@ class MyFirebaseMessagingService: FirebaseMessagingService(){
         Log.d(TAG,"From ${remoteMessage.from }")
         
         remoteMessage.data.let { Log.d(TAG,"Message and data payload:" + remoteMessage.data) }
+        remoteMessage?.notification?.let { Log.d(TAG,"Message and data payload:" + remoteMessage.data)
+        sendNotification(it.body!!)}
+    }
+    
+    private fun sendNotification(messageBody: String) {
+        val notifier = ContextCompat.getSystemService(applicationContext,NotificationManager::class.java)
+        notifier?.sendNotification(messageBody,applicationContext)
     }
     
     /**
