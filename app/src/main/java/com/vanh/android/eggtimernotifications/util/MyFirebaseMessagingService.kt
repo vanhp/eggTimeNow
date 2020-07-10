@@ -6,9 +6,13 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class MyFirebaseMessagingService: FirebaseMessagingService(){
+    // will be called when in foreground and also have data come with
+    // the notification
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Log.d(TAG,"From ${remoteMessage.from }")
+        
+        remoteMessage.data.let { Log.d(TAG,"Message and data payload:" + remoteMessage.data) }
     }
     
     /**
